@@ -43,9 +43,9 @@ USAGE:
    bq-cli [global options] command [command options] [arguments...]
 
 COMMANDS:
-   query, -q, --query  Execute biquery
-   repl, -i, --repl    Run interactive query
-   help, h             Shows a list of commands or help for one command
+   query, q  Execute biquery
+   repl, i   Run interactive query
+   help, h   Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h  show help (default: false)
