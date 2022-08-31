@@ -2,10 +2,28 @@
 
 A little command line application to execute biquery from terminal.
 
-## Example
+## Installation
+
+Follow this [docs](https://cloud.google.com/bigquery/docs/reference/libraries) to setup authentication using gcloud cli.
+```bash
+git clone https://github.com/ahmadrosid/bq-cli.git
+cd bq-cli
+go build
+``
+
+**Important**
+Don\'t forget to set your google project id on env.
 
 ```bash
-bq-cli --query 'select created_at, id from bookings limit 3'
+GOOGLE_PROJECT_ID=your-project-id
+```
+
+## Example
+
+Make sure 
+
+```bash
+$ bq-cli --query 'select created_at, id from bookings limit 3'
 +----------------------+--------------------------------------+
 |      CREATED AT      |                  ID                  |
 +----------------------+--------------------------------------+
