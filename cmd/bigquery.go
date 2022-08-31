@@ -40,7 +40,8 @@ func (b *bigqueryCcommand) printTable(res []string) {
 	table.SetHeader(header)
 	for _, items := range response {
 		data := make([]string, 0)
-		for _, val := range items {
+		for _, key := range header {
+			val := items[key]
 			value := ""
 			if val == nil {
 				value = "null"
