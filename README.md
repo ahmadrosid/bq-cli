@@ -9,10 +9,10 @@ Follow this [docs](https://cloud.google.com/bigquery/docs/reference/libraries) t
 git clone https://github.com/ahmadrosid/bq-cli.git
 cd bq-cli
 go build
-``
+```
 
 **Important**
-Don\'t forget to set your google project id on env.
+Don't forget to set your google project id on env.
 
 ```bash
 GOOGLE_PROJECT_ID=your-project-id
