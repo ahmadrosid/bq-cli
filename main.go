@@ -32,13 +32,13 @@ func main() {
 		Commands: []*cli.Command{
 			{
 				Name:    "query",
-				Aliases: []string{"-q", "--query"},
+				Aliases: []string{"q"},
 				Usage:   "Execute biquery",
 				Action:  bqCmd.HandleQuery,
 			},
 			{
 				Name:    "repl",
-				Aliases: []string{"-i", "--repl"},
+				Aliases: []string{"i"},
 				Usage:   "Run interactive query",
 				Action:  bqCmd.HandleInteractive,
 			},

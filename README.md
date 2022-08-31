@@ -23,7 +23,7 @@ GOOGLE_PROJECT_ID=your-project-id
 Make sure 
 
 ```bash
-$ bq-cli --query 'select created_at, id from bookings limit 3'
+$ bq-cli query 'select created_at, id from bookings limit 3'
 +----------------------+--------------------------------------+
 |      CREATED AT      |                  ID                  |
 +----------------------+--------------------------------------+
