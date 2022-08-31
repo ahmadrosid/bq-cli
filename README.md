@@ -32,3 +32,21 @@ $ bq-cli --query 'select created_at, id from bookings limit 3'
 | 2020-07-24T08:18:55Z | 03c13e25-8fc1-49ee-a8e7-2c0c1fcc94e8 |
 +----------------------+--------------------------------------+
 ```
+
+## Help
+
+```bash
+NAME:
+   bq-cli - A cli app to execute bigquery from terminal.
+
+USAGE:
+   bq-cli [global options] command [command options] [arguments...]
+
+COMMANDS:
+   query, -q, --query  Execute biquery
+   repl, -i, --repl    Run interactive query
+   help, h             Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h  show help (default: false)
+```
