@@ -36,6 +36,12 @@ func main() {
 				Usage:   "Execute biquery",
 				Action:  bqCmd.HandleQuery,
 			},
+			{
+				Name:    "repl",
+				Aliases: []string{"-i", "--repl"},
+				Usage:   "Run interactive query",
+				Action:  bqCmd.HandleInteractive,
+			},
 		},
 	}
 

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -23,24 +24,7 @@ func NewBiqueryCommand(svc service.BiqueryService) *bigqueryCcommand {
 	}
 }
 
-func (b *bigqueryCcommand) HandleQuery(ctx *cli.Context) error {
-	query := ctx.Args().First()
-	if query == "" {
-		return fmt.Errorf("Query text is required!")
-	}
-
-	res, err := b.svc.GetDataFromBQ(query, ctx.Context)
-	if err != nil {
-		return err
-	}
-
-	// Usefull for debuging
-	// res := []string{
-	// 	`{"created_at":"2017-12-15T08:21:15Z","id":"fb1f456b-e1bb-4723-9075-ec67bc74433b"}`,
-	// 	`{"created_at":"2017-12-20T05:06:08Z","id":"274670ca-bd6a-40fd-8e3b-9d9d1441c32b"}`,
-	// 	`{"created_at":"2020-07-24T08:18:55Z","id":"03c13e25-8fc1-49ee-a8e7-2c0c1fcc94e8"}`,
-	// }
-
+func (b *bigqueryCcommand) printTable(res []string) {
 	json_res := fmt.Sprintf("[%s]", strings.Join(res, ","))
 	dec := json.NewDecoder(strings.NewReader(json_res))
 	var response []Data
@@ -61,13 +45,76 @@ func (b *bigqueryCcommand) HandleQuery(ctx *cli.Context) error {
 			if val == nil {
 				value = "null"
 			} else {
-				value = fmt.Sprintf("%s", val)
+				value = toString(val)
 			}
 			data = append(data, value)
 		}
 		table.Append(data)
 	}
 	table.Render()
+}
+
+func (b *bigqueryCcommand) HandleQuery(ctx *cli.Context) error {
+	query := ctx.Args().First()
+	if query == "" {
+		return fmt.Errorf("Query text is required!")
+	}
+
+	res, err := b.svc.GetDataFromBQ(query, ctx.Context)
+	if err != nil {
+		return err
+	}
+
+	// Usefull for debuging
+	// res := []string{
+	// 	`{"created_at":"2017-12-15T08:21:15Z","id":"fb1f456b-e1bb-4723-9075-ec67bc74433b"}`,
+	// 	`{"created_at":"2017-12-20T05:06:08Z","id":"274670ca-bd6a-40fd-8e3b-9d9d1441c32b"}`,
+	// 	`{"created_at":"2020-07-24T08:18:55Z","id":"03c13e25-8fc1-49ee-a8e7-2c0c1fcc94e8"}`,
+	// }
+
+	b.printTable(res)
 
 	return nil
+}
+
+func (b *bigqueryCcommand) HandleInteractive(ctx *cli.Context) error {
+	r := bufio.NewScanner(os.Stdin)
+	fmt.Print("> ")
+
+	for r.Scan() {
+		query := r.Text()
+		if query == "exit" {
+			break
+		}
+
+		if query == "" {
+			fmt.Print("> ")
+			continue
+		}
+
+		res, err := b.svc.GetDataFromBQ(query, ctx.Context)
+		if err != nil {
+			return err
+		}
+
+		b.printTable(res)
+		fmt.Print("> ")
+	}
+
+	return nil
+}
+
+func toString(v interface{}) string {
+	switch s := v.(type) {
+	case string:
+		return string(s)
+	case int:
+		return fmt.Sprintf("%d", s)
+	case float32:
+		return fmt.Sprintf("%.0f", s)
+	case float64:
+		return fmt.Sprintf("%.0f", s)
+	default:
+		return fmt.Sprintf("%v", s)
+	}
 }
