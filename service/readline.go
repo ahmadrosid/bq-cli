@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/google/pprof/driver"
+	"golang.org/x/crypto/ssh/terminal"
 	"golang.org/x/term"
 )
 
@@ -25,17 +26,24 @@ func NewReadlineUI() driver.UI {
 	}
 	// test if we can use term.ReadLine
 	// that assumes operation in the raw mode.
-	oldState, err := term.MakeRaw(0)
+	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
 	if err != nil {
-		return nil
+		panic(err)
 	}
-	term.Restore(0, oldState)
+	defer term.Restore(int(os.Stdin.Fd()), oldState)
 
 	rw := struct {
 		io.Reader
 		io.Writer
 	}{os.Stdin, os.Stderr}
-	return &readlineUI{term: term.NewTerminal(rw, "")}
+	ui := &readlineUI{term: term.NewTerminal(rw, "")}
+	width, height, err := terminal.GetSize(0)
+	if err != nil {
+		panic(err)
+	}
+
+	ui.term.SetSize(width, height)
+	return ui
 }
 
 // Read returns a line of text (a command) read from the user.

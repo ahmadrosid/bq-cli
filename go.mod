@@ -7,6 +7,7 @@ require (
 	github.com/google/pprof v0.0.0-20210720184732-4bb14d4b1be1
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/urfave/cli/v2 v2.11.2
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
 	google.golang.org/api v0.94.0
 )
