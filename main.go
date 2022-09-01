@@ -25,7 +25,9 @@ func main() {
 	}
 
 	svc := service.NewBiqueryService(bQClient)
-	bqCmd := cmd.NewBiqueryCommand(svc)
+	ui := service.NewReadlineUI()
+	bqCmd := cmd.NewBiqueryCommand(svc, ui)
+
 	app := &cli.App{
 		Name:  "bq-cli",
 		Usage: "A cli app to execute bigquery from terminal.",

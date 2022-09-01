@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/ahmadrosid/bq-cli/service"
+	"github.com/google/pprof/driver"
 	"github.com/olekukonko/tablewriter"
 	"github.com/urfave/cli/v2"
 )
@@ -16,11 +16,13 @@ type Data map[string]interface{}
 
 type bigqueryCcommand struct {
 	svc service.BiqueryService
+	ui  driver.UI
 }
 
-func NewBiqueryCommand(svc service.BiqueryService) *bigqueryCcommand {
+func NewBiqueryCommand(svc service.BiqueryService, ui driver.UI) *bigqueryCcommand {
 	return &bigqueryCcommand{
 		svc: svc,
+		ui:  ui,
 	}
 }
 
@@ -79,29 +81,32 @@ func (b *bigqueryCcommand) HandleQuery(ctx *cli.Context) error {
 }
 
 func (b *bigqueryCcommand) HandleInteractive(ctx *cli.Context) error {
-	r := bufio.NewScanner(os.Stdin)
-	fmt.Print("> ")
+	for {
+		query, err := b.ui.ReadLine("> ")
+		if err != nil {
+			b.ui.PrintErr(err)
+			break
+		}
 
-	for r.Scan() {
-		query := r.Text()
 		if query == "exit" {
 			break
 		}
 
 		if query == "" {
-			fmt.Print("> ")
+			b.ui.Print("> ")
 			continue
 		}
 
 		res, err := b.svc.GetDataFromBQ(query, ctx.Context)
 		if err != nil {
-			return err
+			b.ui.PrintErr(err)
+			b.ui.Print("> ")
+			continue
 		}
 
 		b.printTable(res)
-		fmt.Print("> ")
+		b.ui.Print("> ")
 	}
-
 	return nil
 }
 

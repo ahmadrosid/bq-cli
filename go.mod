@@ -4,7 +4,10 @@ go 1.17
 
 require (
 	cloud.google.com/go/bigquery v1.39.0
+	github.com/google/pprof v0.0.0-20210720184732-4bb14d4b1be1
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/urfave/cli/v2 v2.11.2
+	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
 	google.golang.org/api v0.94.0
 )
 
@@ -19,8 +22,8 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.1.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.5.1 // indirect
+	github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639 // indirect
 	github.com/mattn/go-runewidth v0.0.9 // indirect
-	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	go.opencensus.io v0.23.0 // indirect

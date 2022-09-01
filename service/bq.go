@@ -1,10 +1,8 @@
-
 package service
 
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"cloud.google.com/go/bigquery"
 	"google.golang.org/api/iterator"
@@ -30,7 +28,6 @@ func (r *bqService) GetDataFromBQ(query string, ctx context.Context) ([]string, 
 	row, err := q.Read(ctx)
 
 	if err != nil {
-		fmt.Printf(`[BQ][Get EventData] query: %s`, err.Error())
 		return nil, err
 	}
 	var totalData []string
@@ -42,13 +39,11 @@ func (r *bqService) GetDataFromBQ(query string, ctx context.Context) ([]string, 
 			if err == iterator.Done {
 				break
 			} else {
-				fmt.Printf(`[BQ][Get EventData] has error: %s`, err.Error())
 				return nil, err
 			}
 		}
 		val, err := json.Marshal(plat)
 		if err != nil {
-			fmt.Printf(`[BQ][Get EventData] has error: %s`, err.Error())
 			return nil, err
 		}
 
