@@ -68,7 +68,7 @@ func (b *bigqueryCcommand) HandleQuery(ctx *cli.Context) error {
 		return err
 	}
 
-	// Usefull for debuging
+	// Useful for debuging
 	// res := []string{
 	// 	`{"created_at":"2017-12-15T08:21:15Z","id":"fb1f456b-e1bb-4723-9075-ec67bc74433b"}`,
 	// 	`{"created_at":"2017-12-20T05:06:08Z","id":"274670ca-bd6a-40fd-8e3b-9d9d1441c32b"}`,
